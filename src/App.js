@@ -1,24 +1,25 @@
-import logo from './logo.svg';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
 import './App.css';
+import SelectedMenu from './components/SelectedMenu';
+import CountryList from './components/CountryList';
+import { useState } from 'react';
 
 function App() {
+  const [query, setQuery] = useState('');
+  const [filterCountry, setFilterCountry] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header setDarkMode={setDarkMode} />
+      <main>
+        <div className='search-filter-container' >
+          <SearchBar  setQuery={setQuery} />
+          <SelectedMenu setFilterCountry={setFilterCountry} />
+        </div>
+        <CountryList filterCountry={filterCountry} query={query}/>
+      </main>
+    </>
   );
 }
 
