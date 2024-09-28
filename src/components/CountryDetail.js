@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import './CountryDetail.css';
 
 const CountryDetail = () => {
   // const {name} = useParams();
   const [countryData, setCountryData] = useState(null);
-  const location = useLocation();
-  const countryName = new URLSearchParams(location.search).get('name');
-  console.log(countryName)
+  const [notFound, setNotFound] = useState(false);
+  const navigate = useNavigate();
+  // const location = useLocation();
+
+  // const countryName = new URLSearchParams(location.search).get('name');
+  const params = useParams()
+  const countryName = params.country
+
 
   useEffect(()=>{
       fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
@@ -26,21 +31,43 @@ const CountryDetail = () => {
           currencies: Object.values(data.currencies)
             .map((currency) => currency.name)
             .join(', '),
+     
+          borders: [],
+
+          
+        
         
         })
+
+        if(!data.borders){
+          data.borders = [];
+        }
+
+        data.borders.map((border)=>{
+          fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+           .then(res => res.json())
+           .then(([borderCountry])=>{
+              setCountryData((preState)=>({...preState, borders: [...preState.borders, borderCountry.name.common]}))
+            })
+        })
        })
-       .catch(error => console.log(error))
+       .catch(error =>{
+        setNotFound(true);
+        // console.error(error);
+       })
        
-  },[])
+  },[countryName])
 
-
+  if(notFound){
+    return <h1 style={{textAlign:'center'}}>Country not found</h1>
+  }
     return countryData === null ?(
       <h1>Loading...</h1>
     ): (
         <main>
         <div className="country-details-container">
-          <span className="back-button">
-            <Link to={'/'}>Back</Link> 
+          <span className="back-button" onClick={()=> navigate(-1)}>
+            Back 
           </span>
           <div className="country-details">
             <img src={countryData.flag} alt='' />
@@ -82,9 +109,16 @@ const CountryDetail = () => {
                   <span className="languages"></span>
                 </p>
               </div>
-              <div className="border-countries">
-                <b>Border Countries: {countryData.borders}</b>&nbsp;
-              </div>
+              {countryData.borders.length !==0 && <div className="border-countries">
+                <b>Border Countries: </b>&nbsp; 
+                {
+                  countryData.borders.map((border) => (
+                    <Link to={`/${border}`} key={border}>
+                      {border}
+                    </Link>
+                  ))
+                }
+              </div>}
             </div>
           </div>
         </div>
