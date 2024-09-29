@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-regular-svg-icons";
+import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 
 const Header = ({setDarkMode}) => {
+  const [isDark, setIsDark] = useState(JSON.parse(localStorage.getItem('isDarkMode')));
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', isDark);
+  }, [isDark]);
   return (
     <header className="header-container">
       <div className="header-content">
@@ -13,9 +18,15 @@ const Header = ({setDarkMode}) => {
         <p>
           <Link to={'/contact'}>Contact Us</Link>
         </p>
-        <p className="theme-changer">
-          <FontAwesomeIcon icon={faMoon} />
-          Dark Mode
+        <p className="theme-changer" onClick={()=>{
+          
+          setIsDark(!isDark);
+          localStorage.setItem('isDarkMode', !isDark)
+
+        }}>
+          <FontAwesomeIcon icon={isDark? faSun:faMoon} />
+          
+          {isDark? 'Light Mode': 'Dark Mode'}
         </p>
       </div>
     </header>

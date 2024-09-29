@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CountryListShimmer from "./CountryListShimmer";
 
 const CountryCard = ({ name, flag, population, region, capital }) => {
   
   return (
+    
     <Link className="country-card" to={`/${name}`}>
       <img src={flag} alt={name + ' Flag'} />
       <div className="card-text">

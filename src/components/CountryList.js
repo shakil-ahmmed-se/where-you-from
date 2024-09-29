@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
+import CountryListShimmer from "./CountryListShimmer";
+import './CountryListShimmer.css';
 
 
 
@@ -23,8 +25,11 @@ const CountryList = ({query, filterCountry}) => {
 
   return (
     <>
+    
     {/* <input type="text" onChange={(e)=>{setQuery(e.target.value)}} placeholder="Search for a country..." /> */}
-    <div className="countries-container">
+
+   {!countriesData.length ?(<CountryListShimmer/>):
+    (<div className="countries-container">
        {
           countriesData.filter((country) =>{
             if(query || filterCountry === ''){
@@ -52,7 +57,8 @@ const CountryList = ({query, filterCountry}) => {
           )
           })
        }
-    </div>
+    </div>)
+    }
     </>
   );
 };
