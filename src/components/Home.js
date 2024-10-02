@@ -4,7 +4,6 @@ import SelectedMenu from './SelectedMenu';
 import CountryList from './CountryList';
 import { useWindowSize } from '../hooks/useWindowSize';
 
-// import { ThemeContext } from '../contexts/ThemeContext';
 
 const Home = () => {
     const [query, setQuery] = useState('');
