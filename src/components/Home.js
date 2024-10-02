@@ -1,20 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchBar from './SearchBar';
 import SelectedMenu from './SelectedMenu';
 import CountryList from './CountryList';
-import { ThemeContext } from '../contexts/ThemeContext';
+import { useWindowSize } from '../hooks/useWindowSize';
+
+// import { ThemeContext } from '../contexts/ThemeContext';
 
 const Home = () => {
     const [query, setQuery] = useState('');
     const [filterCountry, setFilterCountry] = useState('');
-    const a = useContext(ThemeContext)
-    console.log(a);
+    // const a = useContext(ThemeContext);
+    const size = useWindowSize();
+    // console.log(size)
+    
     return (
         <main>
         <div className='search-filter-container' >
           <SearchBar  setQuery={setQuery} />
           <SelectedMenu setFilterCountry={setFilterCountry} />
         </div>
+        <h1 style={{textAlign:'center'}}>Window Size :{size.width } X {size.height}</h1>
         <CountryList filterCountry={filterCountry} query={query}/>
       </main>
     );

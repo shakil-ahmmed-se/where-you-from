@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
+import useTheme from "../hooks/useTheme";
 
 const Header = ({setDarkMode}) => {
-  const [isDark, setIsDark] = useState(JSON.parse(localStorage.getItem('isDarkMode')));
+  // const [isDark, setIsDark] = useState(JSON.parse(localStorage.getItem('isDarkMode')));
+  const [isDark, setIsDark] = useTheme();
 
   useEffect(() => {
     document.body.classList.toggle('dark', isDark);

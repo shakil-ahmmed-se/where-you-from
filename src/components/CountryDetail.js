@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import './CountryDetail.css';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const CountryDetail = () => {
+//  console.log(width, height);
   // const {name} = useParams();
   const [countryData, setCountryData] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -11,7 +13,9 @@ const CountryDetail = () => {
 
   // const countryName = new URLSearchParams(location.search).get('name');
   const params = useParams()
-  const countryName = params.country
+  const countryName = params.country;
+
+  const size = useWindowSize();
 
 
   useEffect(()=>{
@@ -66,6 +70,7 @@ const CountryDetail = () => {
     ): (
         <main>
         <div className="country-details-container">
+          <h2>Window Size: {size.width} x {size.height}</h2>
           <span className="back-button" onClick={()=> navigate(-1)}>
             Back 
           </span>
